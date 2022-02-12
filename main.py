@@ -1,17 +1,18 @@
 import sqlite3
 import sys
 
-from PyQt5 import uic
+from UI.uimain import Ui_MainWindow
+from UI.add_create import Ui_Form
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QMainWindow, QTableWidgetItem
 
 
-class CreateAdd(QtWidgets.QMainWindow):
+class CreateAdd(QtWidgets.QMainWindow, Ui_Form):
     def __init__(self, parent=None):
         super().__init__(parent)
-        uic.loadUi("add_create.ui", self)
-        self.con = sqlite3.connect("coffee.db")
+        self.setupUi(self)
+        self.con = sqlite3.connect("data/coffee.db")
         self.tableWidget.itemChanged.connect(self.item_changed)
         self.pushButton_2.clicked.connect(self.update)
         self.pushButton_3.clicked.connect(self.save_results)
@@ -77,11 +78,11 @@ class CreateAdd(QtWidgets.QMainWindow):
         self.statusBar().showMessage(f'''Сохранена информация о кофе с индексом {id + 1}''')
 
 
-class MyWidget(QMainWindow):
+class MyWidget(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super().__init__()
-        uic.loadUi("main.ui", self)
-        self.con = sqlite3.connect("coffee.db")
+        self.setupUi(self)
+        self.con = sqlite3.connect("data/coffee.db")
         self.add_form = CreateAdd()
         self.pushButton.clicked.connect(self.update_result)
         self.pushButton_2.clicked.connect(self.add_create)
